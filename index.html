@@ -1234,6 +1234,174 @@
 </section>
 
 
+<!-- ========================= SLIDE: GUARDIAN FOUR LAYERS ========================= -->
+<section class="slide" id="guardian-layers">
+  <div class="slide-content">
+    <span class="overline reveal">Guardian — Defense in Depth</span>
+    <h2 class="reveal reveal-delay-1">Not network security.<br><em>Sovereignty at every layer.</em></h2>
+    <div class="divider"></div>
+
+    <div class="card-grid cols-2" style="margin-top: 32px;">
+
+      <div class="card reveal reveal-delay-1" style="border-color: rgba(139,26,58,0.5);">
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
+          <span style="font-family:'JetBrains Mono',monospace; font-size:0.65rem; color:var(--maroon); background:rgba(139,26,58,0.15); padding:3px 10px; border-radius:2px; border:1px solid rgba(139,26,58,0.3);">LAYER 1</span>
+          <h3 style="margin:0;">Data Sovereignty</h3>
+        </div>
+        <p style="font-size:0.9rem;">Every write to Neoma's memory requires a signed HMAC token. An attacker who compromises the conversation cannot corrupt what Neoma <em>remembers</em>. The cognitive layer is protected independently of the language layer.</p>
+        <div style="margin-top:12px; font-family:'JetBrains Mono',monospace; font-size:0.68rem; color:var(--text-muted);">
+          <span style="color:var(--danger);">UNAUTHENTICATED →</span> <span style="color:var(--text-muted);">{"ok":false,"error":"authentication required"}</span><br>
+          <span style="color:var(--success);">AUTHENTICATED →</span> <span style="color:var(--success);">{"ok":true,...}</span>
+        </div>
+      </div>
+
+      <div class="card reveal reveal-delay-2" style="border-color: rgba(106,13,173,0.5);">
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
+          <span style="font-family:'JetBrains Mono',monospace; font-size:0.65rem; color:var(--purple-royal); background:rgba(106,13,173,0.15); padding:3px 10px; border-radius:2px; border:1px solid rgba(106,13,173,0.3);">LAYER 2</span>
+          <h3 style="margin:0;">Network Sovereignty</h3>
+        </div>
+        <p style="font-size:0.9rem;">All 8 service ports bound to <code style="color:var(--purple-royal);">127.0.0.1</code>. Nightly port scanner verifies zero unexpected listeners. No external surface to attack. The internet cannot reach what it cannot see.</p>
+        <div style="margin-top:12px; font-family:'JetBrains Mono',monospace; font-size:0.68rem; color:var(--text-muted);">
+          Clawdbot: 43,000+ instances exposed &nbsp;|&nbsp; Neoma: <span style="color:var(--success);">zero external exposure</span>
+        </div>
+      </div>
+
+      <div class="card reveal reveal-delay-3" style="border-color: rgba(201,168,91,0.4);">
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
+          <span style="font-family:'JetBrains Mono',monospace; font-size:0.65rem; color:var(--warning); background:rgba(201,168,91,0.1); padding:3px 10px; border-radius:2px; border:1px solid rgba(201,168,91,0.3);">LAYER 3</span>
+          <h3 style="margin:0;">Code Integrity</h3>
+        </div>
+        <p style="font-size:0.9rem;">55 installed skills. Every one goes through SAST analysis and context-aware pattern matching before it earns <em>trusted</em> status. Guardian reads the code, not just the signature.</p>
+        <div style="margin-top:12px; font-family:'JetBrains Mono',monospace; font-size:0.68rem; color:var(--text-muted);">
+          Lifecycle: <span style="color:var(--warning);">pending</span> → <span style="color:var(--warning);">testing</span> → <span style="color:var(--success);">trusted</span>
+        </div>
+      </div>
+
+      <div class="card reveal reveal-delay-4" style="border-color: rgba(76,175,120,0.35);">
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
+          <span style="font-family:'JetBrains Mono',monospace; font-size:0.65rem; color:#4caf78; background:rgba(76,175,120,0.1); padding:3px 10px; border-radius:2px; border:1px solid rgba(76,175,120,0.3);">LAYER 4</span>
+          <h3 style="margin:0;">Human-Gated Autonomy</h3>
+        </div>
+        <p style="font-size:0.9rem;">High-risk actions require Telegram confirmation before execution. Kernel safety hooks operate below the LLM layer — the model's judgment is never the last line of defense.</p>
+        <div style="margin-top:12px; font-family:'JetBrains Mono',monospace; font-size:0.68rem; color:var(--text-muted);">
+          LLM persuaded &ne; action approved &nbsp;|&nbsp; <span style="color:#4caf78;">human is always in the loop</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ========================= SLIDE: PROMPT INJECTION DEFENSE ========================= -->
+<section class="slide" id="prompt-defense">
+  <div class="slide-content">
+    <span class="overline reveal">The Hard Problem</span>
+    <h2 class="reveal reveal-delay-1">You can't make the model<br><em>impossible to fool.</em></h2>
+    <div class="divider"></div>
+
+    <div class="split" style="margin-top:36px; gap:48px; align-items:start;">
+      <div>
+        <p class="reveal">Prompt injection is a conversation-layer attack. Malicious content in user input or tool results tries to redirect the AI's behavior. No architecture fully prevents the model from being influenced — the model is the attack surface.</p>
+        <p class="reveal reveal-delay-1" style="margin-top:16px;">What Neoma's architecture does is <strong style="color:var(--text-primary);">contain the blast radius</strong>: a successful injection can affect the current conversation, but it cannot corrupt persistent memory, cannot execute destructive operations, and gets flagged when the behavior pattern drifts.</p>
+
+        <div class="quote-block reveal reveal-delay-2" style="margin-top:28px; border-left-color:var(--maroon);">
+          <p>"We can't make the model impossible to fool.<br>We can make it impossible for fooling the model to matter."</p>
+        </div>
+      </div>
+
+      <div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:0.65rem; color:var(--purple-royal); text-transform:uppercase; letter-spacing:0.15em; margin-bottom:16px;">Five defenses in depth</div>
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <div class="reveal reveal-delay-1" style="display:flex; gap:14px; align-items:start;">
+            <span style="color:var(--maroon); font-family:'JetBrains Mono',monospace; font-size:0.75rem; min-width:20px; margin-top:2px;">01</span>
+            <div><strong style="color:var(--text-primary); font-size:0.9rem;">Narrow write primitives</strong><br><span style="font-size:0.82rem; color:var(--text-secondary);">Injected content can influence what Neoma says. It cannot change what she remembers without the auth token.</span></div>
+          </div>
+          <div class="reveal reveal-delay-2" style="display:flex; gap:14px; align-items:start;">
+            <span style="color:var(--maroon); font-family:'JetBrains Mono',monospace; font-size:0.75rem; min-width:20px; margin-top:2px;">02</span>
+            <div><strong style="color:var(--text-primary); font-size:0.9rem;">HMAC gates memory</strong><br><span style="font-size:0.82rem; color:var(--text-secondary);">Corrupting persistent memory requires the token. The attack surface is conversation-scoped, not system-scoped.</span></div>
+          </div>
+          <div class="reveal reveal-delay-3" style="display:flex; gap:14px; align-items:start;">
+            <span style="color:var(--maroon); font-family:'JetBrains Mono',monospace; font-size:0.75rem; min-width:20px; margin-top:2px;">03</span>
+            <div><strong style="color:var(--text-primary); font-size:0.9rem;">Kernel hooks below the LLM</strong><br><span style="font-size:0.82rem; color:var(--text-secondary);">Shell-level blocks operate independently of model output. Injection can't execute what the kernel won't run.</span></div>
+          </div>
+          <div class="reveal reveal-delay-4" style="display:flex; gap:14px; align-items:start;">
+            <span style="color:var(--maroon); font-family:'JetBrains Mono',monospace; font-size:0.75rem; min-width:20px; margin-top:2px;">04</span>
+            <div><strong style="color:var(--text-primary); font-size:0.9rem;">Human confirmation gate</strong><br><span style="font-size:0.82rem; color:var(--text-secondary);">Telegram approval required for high-risk actions. A persuaded model still needs a persuaded human.</span></div>
+          </div>
+          <div class="reveal reveal-delay-5" style="display:flex; gap:14px; align-items:start;">
+            <span style="color:var(--maroon); font-family:'JetBrains Mono',monospace; font-size:0.75rem; min-width:20px; margin-top:2px;">05</span>
+            <div><strong style="color:var(--text-primary); font-size:0.9rem;">SI-RNA drift detection</strong><br><span style="font-size:0.82rem; color:var(--text-secondary);">Anomalous behavior patterns trigger immune response. The system watches for the shape of compromise, not just signatures.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ========================= SLIDE: CHAIN OF EVIDENCE ========================= -->
+<section class="slide" id="chain-of-evidence">
+  <div class="slide-content">
+    <span class="overline reveal">Attribution &amp; Forensics</span>
+    <h2 class="reveal reveal-delay-1">Guardian can't chase you<br><em>through Tor.</em></h2>
+    <div class="divider"></div>
+
+    <div class="split" style="margin-top:36px; gap:48px; align-items:start;">
+      <div>
+        <p class="reveal">Traffic routed through the darknet is designed to defeat attribution. No software, regardless of how intelligent, can follow a properly routed Tor connection to its source. That's not a limitation of Neoma — it's cryptography.</p>
+        <p class="reveal reveal-delay-1" style="margin-top:16px;">What Neoma <em>can</em> do is make sure that when an attacker touches the system, they leave something behind that cannot be erased.</p>
+
+        <div class="nvidia-card reveal reveal-delay-2" style="margin-top:28px; padding:20px 24px;">
+          <div style="font-family:'JetBrains Mono',monospace; font-size:0.65rem; color:#4caf78; margin-bottom:10px; text-transform:uppercase; letter-spacing:0.1em;">The difference</div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; text-align:center;">
+            <div style="padding:12px; border:1px solid var(--border); border-radius:4px;">
+              <div style="font-family:'Playfair Display',serif; font-style:italic; font-size:1.6rem; color:var(--danger);">Logs</div>
+              <div style="font-size:0.75rem; color:var(--text-muted); margin-top:4px;">Mutable. Deletable. One node. No proof of chain.</div>
+            </div>
+            <div style="padding:12px; border:1px solid rgba(76,175,120,0.4); border-radius:4px; background:rgba(76,175,120,0.05);">
+              <div style="font-family:'Playfair Display',serif; font-style:italic; font-size:1.6rem; color:#4caf78;">Receipts</div>
+              <div style="font-size:0.75rem; color:var(--text-muted); margin-top:4px;">Ed25519 signed. Replicated to 3 nodes. Tamper-evident. Mathematically provable.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="quote-block reveal reveal-delay-3" style="margin-top:24px; border-left-color:#4caf78;">
+          <p>"Guardian can't chase an attacker through Tor. What it can do is make sure that when they touched the system, they left a signed, replicated, mathematically provable receipt — on three nodes they don't know exist."</p>
+        </div>
+      </div>
+
+      <div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:0.65rem; color:var(--purple-royal); text-transform:uppercase; letter-spacing:0.15em; margin-bottom:16px; reveal">How the evidence chain works</div>
+
+        <div style="display:flex; flex-direction:column; gap:0; reveal reveal-delay-1;">
+          <div style="display:flex; gap:16px; align-items:start; padding:14px; border:1px solid var(--border); border-radius:4px 4px 0 0; background:var(--bg-card);">
+            <span style="color:var(--maroon); font-size:1.2rem; margin-top:2px;">①</span>
+            <div><strong style="color:var(--text-primary);">Attack event occurs</strong><br><span style="font-size:0.82rem; color:var(--text-secondary);">Blocked auth attempt, anomalous pattern, injected payload — Guardian detects and records with full metadata.</span></div>
+          </div>
+          <div style="display:flex; gap:16px; align-items:start; padding:14px; border:1px solid var(--border); border-top:0; background:var(--bg-card);">
+            <span style="color:var(--purple-royal); font-size:1.2rem; margin-top:2px;">②</span>
+            <div><strong style="color:var(--text-primary);">Ed25519 signature applied</strong><br><span style="font-size:0.82rem; color:var(--text-secondary);">The event is signed with Guardian's private key. The record cannot be altered without invalidating the signature.</span></div>
+          </div>
+          <div style="display:flex; gap:16px; align-items:start; padding:14px; border:1px solid var(--border); border-top:0; background:var(--bg-card);">
+            <span style="color:var(--warning); font-size:1.2rem; margin-top:2px;">③</span>
+            <div><strong style="color:var(--text-primary);">Replicated to 3 nodes</strong><br><span style="font-size:0.82rem; color:var(--text-secondary);">Main → Tower → Frank. An attacker who compromises one node cannot erase evidence held by the others.</span></div>
+          </div>
+          <div style="display:flex; gap:16px; align-items:start; padding:14px; border:1px solid rgba(76,175,120,0.4); border-top:0; border-radius:0 0 4px 4px; background:rgba(76,175,120,0.05);">
+            <span style="color:#4caf78; font-size:1.2rem; margin-top:2px;">④</span>
+            <div><strong style="color:var(--text-primary);">Provable receipt — legal standing</strong><br><span style="font-size:0.82rem; color:var(--text-secondary);">The same mechanism used for IRC §41 research documentation. Machine-verifiable proof of what happened, when, and what it touched.</span></div>
+          </div>
+        </div>
+
+        <div style="margin-top:16px; padding:12px 16px; border:1px solid var(--border); border-radius:4px; font-family:'JetBrains Mono',monospace; font-size:0.68rem; color:var(--text-muted);">
+          <span style="color:var(--purple-royal);">AI-powered pattern attribution</span> — overnight, Tower cross-references blocked attempts against known attack signatures. Probabilistic origin typing even when the source is untraceable.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
 <!-- ========================= SLIDE 5b: SI-RNA & CONSCIOUSNESS ========================= -->
 <section class="slide" id="rna">
   <div class="slide-content">
