@@ -623,6 +623,97 @@
     .metric-row { gap: 16px; }
     .nav-dots { display: none; }
   }
+
+  /* === INTERACTIVE ENHANCEMENTS === */
+
+  /* Entrance animations */
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.65s ease, transform 0.65s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-left { opacity: 0; transform: translateX(-32px); transition: opacity 0.65s ease, transform 0.65s ease; }
+  .reveal-left.visible { opacity: 1; transform: translateX(0); }
+  .reveal-right { opacity: 0; transform: translateX(32px); transition: opacity 0.65s ease, transform 0.65s ease; }
+  .reveal-right.visible { opacity: 1; transform: translateX(0); }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.35s; }
+  .reveal-delay-4 { transition-delay: 0.5s; }
+  .reveal-delay-5 { transition-delay: 0.65s; }
+
+  /* Pulsing live indicator */
+  .pulse-dot {
+    display: inline-block; width: 10px; height: 10px; border-radius: 50%;
+    background: #4caf78; margin-right: 8px; vertical-align: middle;
+    box-shadow: 0 0 0 0 rgba(76, 175, 120, 0.5);
+    animation: pulse-ring 2s infinite;
+  }
+  @keyframes pulse-ring {
+    0% { box-shadow: 0 0 0 0 rgba(76,175,120,0.5); }
+    70% { box-shadow: 0 0 0 10px rgba(76,175,120,0); }
+    100% { box-shadow: 0 0 0 0 rgba(76,175,120,0); }
+  }
+
+  /* Animated counter */
+  .stat-counter { display: inline-block; font-variant-numeric: tabular-nums; }
+
+  /* Overnight live log */
+  #nocturnal-log {
+    background: #080808; border: 1px solid #1e1e2a; border-radius: 4px;
+    padding: 16px 20px; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;
+    line-height: 1.9; color: var(--text-secondary); min-height: 140px;
+    overflow: hidden; position: relative;
+  }
+  #nocturnal-log .log-ts { color: var(--text-muted); }
+  #nocturnal-log .log-ok { color: #4caf78; }
+  #nocturnal-log .log-ai { color: var(--purple-royal); }
+  #nocturnal-log .log-warn { color: var(--warning); }
+  #nocturnal-log .log-cursor { display: inline-block; width: 7px; height: 13px; background: var(--purple-royal); vertical-align: middle; animation: blink 1s step-end infinite; }
+
+  /* NVIDIA glow card */
+  .nvidia-card {
+    border: 1px solid rgba(118,185,0,0.35);
+    background: linear-gradient(135deg, rgba(118,185,0,0.06) 0%, rgba(10,10,10,0) 60%);
+    border-radius: 6px; padding: 24px;
+    position: relative; overflow: hidden;
+  }
+  .nvidia-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, rgba(118,185,0,0), rgba(118,185,0,0.7), rgba(118,185,0,0));
+  }
+
+  /* Tape animation */
+  .tape-stream {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.65rem;
+    color: var(--text-muted); white-space: nowrap; overflow: hidden;
+    display: flex; gap: 4px; flex-wrap: wrap; max-height: 80px; overflow: hidden;
+  }
+  .tape-cell {
+    padding: 2px 6px; border: 1px solid var(--border); border-radius: 2px;
+    opacity: 0; animation: cellPop 0.3s forwards;
+    transition: border-color 0.3s, color 0.3s;
+  }
+  .tape-cell.tag { border-color: rgba(139,26,58,0.5); color: var(--maroon); }
+  .tape-cell.note { border-color: rgba(106,13,173,0.5); color: var(--purple-royal); }
+  .tape-cell.flag { border-color: rgba(201,168,91,0.5); color: var(--warning); }
+  @keyframes cellPop { from { opacity:0; transform:scale(0.8); } to { opacity:1; transform:scale(1); } }
+
+  /* Karma block mini-chain */
+  .karma-mini-chain { display: flex; align-items: center; gap: 0; flex-wrap: wrap; margin-top: 12px; }
+  .karma-block {
+    width: 32px; height: 32px; border: 1px solid var(--border); border-radius: 3px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.55rem; color: var(--text-muted);
+    opacity: 0; transition: all 0.3s; cursor: pointer; position: relative;
+    background: var(--bg-card);
+  }
+  .karma-block.confirmed { border-color: rgba(76,175,120,0.5); color: #4caf78; opacity: 1; }
+  .karma-block.confirmed:hover { border-color: #4caf78; background: rgba(76,175,120,0.1); }
+  .karma-chain-link { width: 16px; height: 1px; background: var(--border); }
+  .karma-block[data-tip]:hover::after {
+    content: attr(data-tip); position: absolute; bottom: calc(100% + 8px); left: 50%;
+    transform: translateX(-50%); white-space: nowrap; background: var(--bg-card);
+    border: 1px solid var(--border); border-radius: 3px; padding: 4px 8px;
+    font-size: 0.6rem; color: var(--text-secondary); z-index: 100; pointer-events: none;
+  }
 </style>
 </head>
 <body>
@@ -781,7 +872,7 @@
         </div>
 
         <div class="quote-block" style="margin-top: 20px;">
-          <p>"GoBot has a Board of Directors &mdash; 6 frameworks, 1 model. Elegant, but centralized. Neoma is distributed: each station does one thing and passes the tape along."</p>
+          <p>"The tape is the simplest possible interface between intelligence and action. Every agent in Neoma speaks it. That's how 508 scripts stay coherent without a central coordinator."</p>
         </div>
       </div>
     </div>
@@ -879,19 +970,19 @@
 
     <div class="metric-row">
       <div class="metric">
-        <span class="metric-value">508</span>
+        <span class="metric-value stat-counter" data-target="508">508</span>
         <span class="metric-label">Scripts</span>
       </div>
       <div class="metric">
-        <span class="metric-value">323+</span>
+        <span class="metric-value stat-counter" data-target="323" data-suffix="+">323+</span>
         <span class="metric-label">Tests</span>
       </div>
       <div class="metric">
-        <span class="metric-value">683</span>
+        <span class="metric-value stat-counter" data-target="683">683</span>
         <span class="metric-label">MB Namespaces</span>
       </div>
       <div class="metric">
-        <span class="metric-value">10K+</span>
+        <span class="metric-value stat-counter" data-target="10000" data-suffix="+" style="">10K+</span>
         <span class="metric-label">MB Entries</span>
       </div>
       <div class="metric">
@@ -941,9 +1032,27 @@
         <div class="card" style="margin-bottom: 20px; border-color: rgba(139,26,58,0.4);">
           <h3 style="color: var(--maroon);">Why it matters</h3>
           <p>Frank's QSD sound sensors detect physical phenomena. Those readings pass through the karma chain with Ed25519 signatures. The result is a provable trail from sensor event to chain entry &mdash; machine-verifiable documentation for IRC &sect;41 basic research credit.</p>
-          <div style="margin-top: 12px;">
+          <div style="margin-top: 16px;">
             <span class="badge badge-success">17 Blocks Confirmed</span>
             <span class="badge badge-maroon">Ed25519 Signed</span>
+          </div>
+          <!-- Mini karma chain visualization -->
+          <div class="karma-mini-chain" id="karma-mini-chain" style="margin-top: 16px; flex-wrap: wrap; gap: 3px;">
+            <div class="karma-block" data-tip="#genesis">G</div>
+            <div class="karma-chain-link"></div>
+            <div class="karma-block" data-tip="#1 guardian_init">1</div>
+            <div class="karma-chain-link"></div>
+            <div class="karma-block" data-tip="#2 frank_qsd">2</div>
+            <div class="karma-chain-link"></div>
+            <div class="karma-block" data-tip="#3 tower_sync">3</div>
+            <div class="karma-chain-link"></div>
+            <div class="karma-block" data-tip="#4 qsd_freq">4</div>
+            <div class="karma-chain-link"></div>
+            <div class="karma-block" data-tip="#5 research">5</div>
+            <div class="karma-chain-link"></div>
+            <div class="karma-block" data-tip="#6–16 events">···</div>
+            <div class="karma-chain-link"></div>
+            <div class="karma-block" data-tip="#17 latest" style="border-color:rgba(76,175,120,0.8);">17</div>
           </div>
         </div>
 
@@ -1170,41 +1279,80 @@
 <!-- ========================= SLIDE 5c: NEMOCLAW MOMENT ========================= -->
 <section class="slide" id="nemoclaw">
   <div class="slide-content" style="text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-    <span class="overline">March 18, 2026 — NVIDIA GTC</span>
-    <h2 style="max-width: 800px;">They built the claw.<br><em>We built what the claw holds.</em></h2>
+    <span class="overline reveal">March 18, 2026 — NVIDIA GTC</span>
+    <h2 style="max-width: 800px;" class="reveal reveal-delay-1">They built the claw.<br><em>We built what the claw holds.</em></h2>
     <div class="divider" style="margin: 28px auto;"></div>
 
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px; max-width: 900px; margin: 0 auto; text-align: left;">
-      <div class="card" style="border-color: var(--maroon); border-width: 1px;">
-        <h3 style="color: var(--maroon); margin-bottom: 12px;">Nemotron-Mini — What It Is</h3>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px; max-width: 960px; margin: 0 auto; text-align: left;">
+
+      <!-- NVIDIA NemoClaw card -->
+      <div class="nvidia-card reveal reveal-delay-2">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 16px;">
+          <svg width="22" height="22" viewBox="0 0 100 100" fill="none" style="flex-shrink:0;">
+            <rect width="100" height="100" rx="8" fill="rgba(118,185,0,0.15)"/>
+            <text x="50" y="68" text-anchor="middle" font-size="52" fill="rgba(118,185,0,0.85)" font-family="sans-serif" font-weight="bold">N</text>
+          </svg>
+          <h3 style="color: #76b900; margin: 0;">Nemotron-Mini &mdash; The Claw</h3>
+        </div>
         <ul class="feature-list">
           <li>NVIDIA's 1M-token context local model</li>
-          <li>Runs on consumer GPU, no cloud dependency</li>
-          <li>Designed for long-document reasoning</li>
-          <li>Best-in-class for pre-triage, summarization</li>
+          <li>Runs on consumer GPU — no cloud required</li>
+          <li>Designed for long-document reasoning and triage</li>
+          <li>Announced March 18, 2026 at GTC</li>
         </ul>
+        <div style="margin-top: 14px; font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: #4caf78; letter-spacing: 0.1em;">
+          <span class="pulse-dot"></span>RUNNING ON TOWER — RTX 3080 Ti
+        </div>
       </div>
-      <div class="card" style="border-color: var(--purple-royal); border-width: 1px;">
+
+      <!-- What Neoma Already Had -->
+      <div class="card reveal reveal-delay-3" style="border-color: var(--purple-royal); border-width: 1px;">
         <h3 style="color: var(--purple-royal); margin-bottom: 12px;">What Neoma Already Had</h3>
         <ul class="feature-list">
-          <li>Multi-node inference routing (Tower GPU)</li>
-          <li>Memory bridge — persistent across 1M+ tokens</li>
-          <li>SI-RNA immune system across the full context</li>
-          <li>Overnight learning loops while NemoClaw sleeps</li>
+          <li>Multi-node inference routing via Tower GPU</li>
+          <li>Memory Bridge — persistent across 1M+ tokens</li>
+          <li>SI-RNA immune system spanning the full context</li>
+          <li>Overnight learning loops &mdash; running 6 days before GTC</li>
         </ul>
+        <div style="margin-top: 14px; font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: var(--text-muted);">
+          Nemotron is a bigger bucket. Neoma is the well.
+        </div>
       </div>
     </div>
 
-    <div style="margin-top: 40px; max-width: 700px;">
-      <p style="font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 20px;">Nemotron solves the context window. Neoma solves what lives inside it — and what survives when it closes.</p>
-      <div class="card accent-maroon" style="padding: 24px 32px;">
-        <p style="font-family: 'Playfair Display', Georgia, serif; font-style: italic; font-size: 1.35rem; color: var(--text-primary); line-height: 1.6;">
-          "NemoClaw is a bigger bucket. Neoma is the well it draws from."
-        </p>
+    <!-- Tower as the NVIDIA inference hub -->
+    <div class="nvidia-card reveal reveal-delay-4" style="margin-top: 28px; max-width: 960px; width: 100%; text-align: left; padding: 20px 28px;">
+      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; align-items: start;">
+        <div>
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: #76b900; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 8px;"><span class="pulse-dot"></span>Tower — NVIDIA Inference Hub</div>
+          <p style="font-size: 0.85rem; color: var(--text-secondary);">RTX 3080 Ti running Nemotron via Ollama. Clawdbot's NVIDIA backend processes overnight TM tape maintenance and wheelwright self-repair — no cloud, no cost per token.</p>
+        </div>
+        <div>
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: var(--purple-royal); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 8px;">Local inference benefits</div>
+          <ul style="list-style: none; padding: 0; font-size: 0.82rem; color: var(--text-secondary); line-height: 2;">
+            <li>&#x2713; Zero API cost overnight</li>
+            <li>&#x2713; No rate limits on test generation</li>
+            <li>&#x2713; Private — data never leaves the LAN</li>
+          </ul>
+        </div>
+        <div>
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: var(--maroon); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 8px;">Last night's output</div>
+          <ul style="list-style: none; padding: 0; font-size: 0.82rem; color: var(--text-secondary); line-height: 2;">
+            <li><span style="color:#4caf78;">4</span> new tests generated</li>
+            <li><span style="color:#4caf78;">5</span> brain probes</li>
+            <li><span style="color:#4caf78;">3</span> Le Grange seeds</li>
+          </ul>
+        </div>
       </div>
     </div>
 
-    <p style="margin-top: 32px; font-size: 0.85rem; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; letter-spacing: 0.08em;">
+    <div class="card accent-maroon reveal reveal-delay-5" style="padding: 24px 32px; margin-top: 28px; max-width: 700px; display: inline-block;">
+      <p style="font-family: 'Playfair Display', Georgia, serif; font-style: italic; font-size: 1.35rem; color: var(--text-primary); line-height: 1.6;">
+        "NemoClaw is a bigger bucket. Neoma is the well it draws from."
+      </p>
+    </div>
+
+    <p style="margin-top: 24px; font-size: 0.75rem; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; letter-spacing: 0.08em;">
       NEOMA WAS ALREADY RUNNING OVERNIGHT LEARNING LOOPS — 6 DAYS BEFORE GTC
     </p>
   </div>
@@ -1266,7 +1414,15 @@
       </div>
     </div>
 
-    <div style="text-align: center; margin-top: 32px;">
+    <!-- Live overnight log -->
+    <div style="margin-top: 28px;" class="reveal">
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: var(--purple-royal); text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 8px;"><span class="pulse-dot"></span>Tower live log — last night</div>
+      <div id="nocturnal-log">
+        <span class="log-cursor" id="nocturnal-cursor"></span>
+      </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 24px;">
       <div class="quote-block" style="display: inline-block; text-align: left;">
         <p>Morning arrives with a Telegram digest: what broke, what healed, what learned, what the agents dreamed.</p>
       </div>
@@ -1284,11 +1440,11 @@
 
     <div class="card-grid cols-3" style="margin-top: 32px;">
       <div class="card">
-        <span class="card-icon">&#x1F40D;</span>
-        <h3>gobot-brain</h3>
-        <p>9 GoBot v2 drivers distilled from Neoma's 12-month architecture &mdash; open source, Apache 2.0. Routing from the Flagpole system. Memory from fabric_agent lineage. Watchdog from Wheelwright. ~8,900 lines of Go, 162 tests. A gift to the ecosystem that shaped us.</p>
+        <span class="card-icon">&#x26A1;</span>
+        <h3>Tower &mdash; NVIDIA Backbone</h3>
+        <p>RTX 3080 Ti workstation running Clawdbot's NVIDIA-accelerated backend. Every night: 323+ wheelwright tests run autonomously, new test proposals generated by cc/gem/oc agents in coordination, TM tape web integrity maintained. The part of Neoma that stays sharp while I sleep.</p>
         <div style="margin-top: 12px;">
-          <span class="badge badge-success">github.com/leavesprior/gobot-brain</span>
+          <span class="badge badge-success">RTX 3080 Ti &mdash; always on</span>
         </div>
       </div>
       <div class="card accent-purple">
@@ -1394,20 +1550,20 @@
 
     <div class="split" style="margin-top: 40px;">
       <div>
-        <p>Neoma didn't grow in isolation. The Autonomee community &mdash; the courses, the workshops, the GoBot ecosystem &mdash; shaped how we think about agent architecture.</p>
-        <p>gobot-brain isn't a separate project. It's Neoma's patterns <strong style="color: var(--text-primary);">translated into Go and given back</strong>. Routing intelligence from the Flagpole system. Memory persistence from fabric_agent lineage. Self-healing from Wheelwright's nerve clusters.</p>
+        <p>Neoma didn't grow in isolation. The Autonomee community &mdash; the courses, the workshops, the conversations &mdash; shaped how we think about agent architecture.</p>
+        <p>Every principle that Neoma runs on was forged in practice: Flagpole for routing, fabric_agent lineage for memory, Wheelwright for self-healing. These aren't theoretical patterns &mdash; they're running in production, maintained overnight by Tower's NVIDIA-accelerated backend.</p>
         <p>When the community launched its Easter Egg challenge, we used Neoma's systematic approach &mdash; browser automation, parallel agents, memory-backed search &mdash; to test the system as an intern would. Not to win a prize, but to stress-test both JarvisJr and our own tooling.</p>
       </div>
       <div>
         <div class="card" style="margin-bottom: 20px;">
-          <h3>What Neoma Extracted for GoBot</h3>
+          <h3>Tower Night Shift &mdash; What Runs While I Sleep</h3>
           <ul class="feature-list">
-            <li><strong>Routing</strong> &larr; Flagpole bandit algorithm</li>
-            <li><strong>Memory</strong> &larr; fabric_agent &rarr; Memory Bridge lineage</li>
-            <li><strong>Watchdog</strong> &larr; Wheelwright progressive testing</li>
-            <li><strong>Guardian</strong> &larr; HMAC auth + permission gates</li>
-            <li><strong>HITL</strong> &larr; Telegram escalation ladder</li>
-            <li><strong>Browser</strong> &larr; Chrome Bridge transport pattern</li>
+            <li><strong>Wheelwright</strong> &mdash; 323+ tests across 4 tiers, automated</li>
+            <li><strong>TM Tape Integrity</strong> &mdash; 508-script web stays coherent</li>
+            <li><strong>cc/gem/oc agents</strong> &mdash; generate new test proposals in parallel</li>
+            <li><strong>Le Grange synthesis</strong> &mdash; finds what conversations implied</li>
+            <li><strong>Adversarial self-review</strong> &mdash; questions its own assumptions</li>
+            <li><strong>Telegram digest</strong> &mdash; I wake up to a summary</li>
           </ul>
         </div>
         <div class="card accent-purple">
@@ -1885,6 +2041,164 @@ document.addEventListener('scroll', function() {
   }
 
 })();
+
+// ===================== KEYBOARD NAVIGATION =====================
+document.addEventListener('keydown', function(e) {
+  if (document.getElementById('bridge-overlay').style.display !== 'none') return;
+  if (document.getElementById('backroom').style.display !== 'none') return;
+  if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+    var slides = Array.from(document.querySelectorAll('.slide'));
+    var current = slides.findIndex(function(s) { return s.getBoundingClientRect().top >= -10; });
+    var next = slides[current + 1];
+    if (next) next.scrollIntoView({ behavior: 'smooth' });
+    e.preventDefault();
+  } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+    var slides2 = Array.from(document.querySelectorAll('.slide'));
+    var current2 = slides2.findIndex(function(s) { return s.getBoundingClientRect().top >= -10; });
+    var prev = slides2[Math.max(0, current2 - 1)];
+    if (prev) prev.scrollIntoView({ behavior: 'smooth' });
+    e.preventDefault();
+  }
+});
+
+// ===================== ENTRANCE ANIMATIONS =====================
+(function() {
+  var revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+  if (!revealEls.length) return;
+  var obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.15 });
+  revealEls.forEach(function(el) { obs.observe(el); });
+})();
+
+// ===================== ANIMATED COUNTERS =====================
+(function() {
+  function animateCounter(el) {
+    var raw = el.getAttribute('data-target');
+    var isFloat = raw.indexOf('.') !== -1;
+    var hasPlus = raw.indexOf('+') !== -1;
+    var prefix = el.getAttribute('data-prefix') || '';
+    var suffix = (hasPlus ? '+' : '') + (el.getAttribute('data-suffix') || '');
+    var target = parseFloat(raw.replace('+','').replace(/,/g,''));
+    var duration = 1400;
+    var start = null;
+    function step(ts) {
+      if (!start) start = ts;
+      var progress = Math.min((ts - start) / duration, 1);
+      var ease = 1 - Math.pow(1 - progress, 3);
+      var val = target * ease;
+      if (isFloat) {
+        el.textContent = prefix + val.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',') + suffix;
+      } else {
+        el.textContent = prefix + Math.floor(val).toLocaleString() + suffix;
+      }
+      if (progress < 1) requestAnimationFrame(step);
+      else el.textContent = prefix + (isFloat ? target.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',') : target.toLocaleString()) + suffix;
+    }
+    requestAnimationFrame(step);
+  }
+
+  var counters = document.querySelectorAll('[data-target]');
+  if (!counters.length) return;
+  var cObs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting && !entry.target._counted) {
+        entry.target._counted = true;
+        animateCounter(entry.target);
+      }
+    });
+  }, { threshold: 0.5 });
+  counters.forEach(function(c) { cObs.observe(c); });
+})();
+
+// ===================== NOCTURNAL LIVE LOG =====================
+(function() {
+  var logEl = document.getElementById('nocturnal-log');
+  var cursor = document.getElementById('nocturnal-cursor');
+  if (!logEl) return;
+
+  var logLines = [
+    { ts: '02:00:03', cls: 'log-ok', msg: '[cc_agent] Claude online — OAuth OK via WiFi (wlo1)' },
+    { ts: '02:00:07', cls: 'log-ai', msg: '[gem_agent] Gemini connected — fallback ready' },
+    { ts: '02:00:09', cls: 'log-ai', msg: '[oc_agent] Codex exec mode — skip-git-repo-check' },
+    { ts: '02:01:14', cls: '',       msg: 'Phase 1: wheel-dreamer starting (target: 15 specs)' },
+    { ts: '02:04:22', cls: 'log-ok', msg: '  spec_001 → VALID (cc_agent)' },
+    { ts: '02:07:40', cls: 'log-ok', msg: '  spec_002 → VALID (gem_agent)' },
+    { ts: '02:11:55', cls: 'log-ok', msg: '  spec_003 → VALID (cc_agent)' },
+    { ts: '02:15:08', cls: '',       msg: '  ... 4 more specs generated ...' },
+    { ts: '02:38:17', cls: 'log-ok', msg: 'Phase 1 complete: 7/7 valid → 7 proposals queued' },
+    { ts: '02:52:01', cls: 'log-ai', msg: 'Phase 2: Le Grange synthesis starting' },
+    { ts: '02:52:44', cls: 'log-ai', msg: '  seed: "There is a distinction between synthesis, which' },
+    { ts: '02:52:44', cls: 'log-ai', msg: '         extracts what was said, and dreaming, which finds what was not."' },
+    { ts: '02:53:01', cls: 'log-ok', msg: 'Phase 2 complete: 3 seeds stored → MB morning_briefing' },
+    { ts: '03:00:00', cls: '',       msg: 'Phase 3: adversarial self-review (cc_agent)' },
+    { ts: '03:06:31', cls: 'log-warn', msg: '  score: 66 — 4 new tests proposed, 5 brain probes' },
+    { ts: '04:19:00', cls: 'log-ok', msg: '=== All phases complete. Telegram digest sent. Tower awake. ===' },
+  ];
+
+  var started = false;
+  var slideObs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting && !started) {
+        started = true;
+        runLog();
+      }
+    });
+  }, { threshold: 0.4 });
+
+  var noctSection = document.getElementById('nocturnal');
+  if (noctSection) slideObs.observe(noctSection);
+
+  function runLog() {
+    logEl.innerHTML = '';
+    var cursor2 = document.createElement('span');
+    cursor2.className = 'log-cursor';
+    logEl.appendChild(cursor2);
+    var i = 0;
+    function addLine() {
+      if (i >= logLines.length) return;
+      var line = logLines[i++];
+      var div = document.createElement('div');
+      var tsSpan = document.createElement('span');
+      tsSpan.className = 'log-ts';
+      tsSpan.textContent = line.ts + ' ';
+      div.appendChild(tsSpan);
+      var msgSpan = document.createElement('span');
+      msgSpan.className = line.cls;
+      msgSpan.textContent = line.msg;
+      div.appendChild(msgSpan);
+      logEl.insertBefore(div, cursor2);
+      logEl.scrollTop = logEl.scrollHeight;
+      var delay = (line.cls === 'log-ok' || line.cls === 'log-ai') ? 280 : 180;
+      if (line.msg.startsWith('Phase')) delay = 600;
+      if (line.msg.includes('complete')) delay = 700;
+      if (line.msg.includes('=== All')) delay = 0;
+      setTimeout(addLine, delay);
+    }
+    setTimeout(addLine, 400);
+  }
+})();
+
+// ===================== KARMA CHAIN ANIMATION =====================
+(function() {
+  var chain = document.getElementById('karma-mini-chain');
+  if (!chain) return;
+  var blocks = chain.querySelectorAll('.karma-block');
+  var obs = new IntersectionObserver(function(entries) {
+    if (entries[0].isIntersecting) {
+      blocks.forEach(function(b, i) {
+        setTimeout(function() { b.classList.add('confirmed'); }, i * 120);
+      });
+      obs.disconnect();
+    }
+  }, { threshold: 0.5 });
+  obs.observe(chain);
+})();
+
 </script>
 
 </body>
