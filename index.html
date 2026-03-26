@@ -2023,10 +2023,15 @@ document.addEventListener('scroll', function() {
   var overlay = document.getElementById('bridge-overlay');
   var backroom = document.getElementById('backroom');
   var zeroTrigger = document.getElementById('zero-trigger');
+  var bridgeCrossed = false;
 
   // --- TRIGGER: click the "0" in "0 Thoughts Lost" ---
   zeroTrigger.addEventListener('click', function() {
-    openBridge();
+    if (bridgeCrossed) {
+      enterBackroom();
+    } else {
+      openBridge();
+    }
   });
 
   // --- GLOBAL 42 SHORTCUT: type "42" anywhere on the page ---
@@ -2130,6 +2135,7 @@ document.addEventListener('scroll', function() {
 
   // --- ENTER BACKROOM ---
   function enterBackroom() {
+    bridgeCrossed = true;
     overlay.style.display = 'none';
     backroom.style.display = 'block';
     typeTerminal();
